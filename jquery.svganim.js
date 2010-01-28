@@ -189,14 +189,25 @@ $.each(['fill', 'stroke'],
 				$(fx.elem).css(attrName, '');
 				fx.set = true;
 			}
-			var attr = fx.elem.attributes.getNamedItem(attrName);
+
 			var colour = 'rgb(' + [
 				Math.min(Math.max(parseInt((fx.pos * (fx.end[0] - fx.start[0])) + fx.start[0], 10), 0), 255),
 				Math.min(Math.max(parseInt((fx.pos * (fx.end[1] - fx.start[1])) + fx.start[1], 10), 0), 255),
 				Math.min(Math.max(parseInt((fx.pos * (fx.end[2] - fx.start[2])) + fx.start[2], 10), 0), 255)
 			].join(',') + ')';
 			colour = (fx.end[3] && fx.state == 1 ? 'none' : colour);
+
+			var attr = fx.elem.attributes.getNamedItem(attrName);
 			(attr ? attr.nodeValue = colour : fx.elem.setAttribute(attrName, colour));
+
+			// The style[prop] method used in jQuery.css doesn't affect the element style
+			// The W3C setProperty method works, and updates items that are css styled.
+			if ( fx.elem.style && fx.elem.style.setProperty ) {
+				fx.elem.style.setProperty(attrName, colour, null);
+                        } else {
+				var attr = fx.elem.attributes.getNamedItem(attrName);
+				(attr ? attr.nodeValue = colour : fx.elem.setAttribute(attrName, colour));
+			}
 		}
 	}
 );
@@ -206,16 +217,8 @@ $.each(['fill', 'stroke'],
    @param  attr  (string) the attribute name
    @return  (number[3]) RGB components for the attribute colour */
 function getColour(elem, attr) {
-	var colour;
-	do {
-		colour = (elem.attributes && elem.attributes.getNamedItem(attr) ?
-			elem.attributes.getNamedItem(attr).nodeValue : '');
-		// Keep going until we find an element that has colour, or exit SVG
-		if ((colour != '' && colour != 'none') || $(elem).hasClass('hasSVG')) {
-			break; 
-		}
-	} while (elem = elem.parentNode);
-	return getRGB(colour);
+	// Attempting to support colors from stylesheets
+	return getRGB($(elem).css(attr));
 }
 
 /* Parse strings looking for common colour formats.
