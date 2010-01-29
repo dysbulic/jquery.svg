@@ -197,9 +197,6 @@ $.each(['fill', 'stroke'],
 			].join(',') + ')';
 			colour = (fx.end[3] && fx.state == 1 ? 'none' : colour);
 
-			var attr = fx.elem.attributes.getNamedItem(attrName);
-			(attr ? attr.nodeValue = colour : fx.elem.setAttribute(attrName, colour));
-
 			// The style[prop] method used in jQuery.css doesn't affect the element style
 			// The W3C setProperty method works, and updates items that are css styled.
 			if ( fx.elem.style && fx.elem.style.setProperty ) {
