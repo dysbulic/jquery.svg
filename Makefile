@@ -13,3 +13,5 @@ min: $(MINFILES)
 	@@echo "Minimizing $< to $@"
 	${MINJAR} --js $< --warning_level QUIET > $@
 
+clean:
+	${RM} $(MINFILES)
