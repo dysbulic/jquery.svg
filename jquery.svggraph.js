@@ -500,7 +500,7 @@ $.extend(SVGGraph.prototype, {
 		return [(axis._ticks.position == (bottomRight ? 'in' : 'out') ||
 			axis._ticks.position == 'both' ? -1 : 0),
 			(axis._ticks.position == (bottomRight ? 'out' : 'in') ||
-			axis._ticks.position == 'both' ? +1 : 0), ];
+			axis._ticks.position == 'both' ? +1 : 0) ];
 	},
 
 	/* Retrieve the standard percentage axis.
