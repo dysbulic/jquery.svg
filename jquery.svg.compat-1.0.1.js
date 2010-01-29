@@ -39,7 +39,7 @@ $.extend($.svg._rootClass.prototype, {
 	   @return  the new shape node */
 	roundrect: function(parent, x, y, width, height, rx, ry, settings) {
 		return this.rect(parent, x, y, width, height, rx, ry, settings);
-	},
+	}
 });
 
 /* Attach the SVG functionality to a jQuery selection.
